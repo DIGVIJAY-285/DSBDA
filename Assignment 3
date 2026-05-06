@@ -1,0 +1,16 @@
+bins1 = [20,34,50,100]
+labels1 = [1,2,3]
+
+df1['age_group'] = pd.cut(df1['Age'],bins = bins1,labels=labels1)
+
+df2['Species_code'] = df2['Species'].map({
+    'Iris-setosa': 0,
+    'Iris-versicolor': 1,
+    'Iris-virginica': 2
+})
+
+
+#groupby age_group on Salary: compute grouped salary stats.
+grouped = df1.groupby('age_group')['Salary'].agg(['mean', 'median', 'min', 'max', 'std'])
+#print(grouped): display results of grouped stats.
+print(grouped)
