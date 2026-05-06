@@ -1,0 +1,58 @@
+# Import libraries
+import pandas as pd
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix
+
+# Load dataset
+data = pd.read_csv("iris.csv")
+
+# Features and target
+X = data.iloc[:, 0:4].values      # sepal length, sepal width, petal length, petal width
+y = data.iloc[:, 4].values        # species
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=0
+)
+
+# Train Naive Bayes model
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+# Prediction
+y_pred = model.predict(X_test)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+
+print("Confusion Matrix:\n", cm)
+
+# For binary-style metrics we compute totals
+TP = np.diag(cm).sum()
+FP = cm.sum(axis=0) - np.diag(cm)
+FN = cm.sum(axis=1) - np.diag(cm)
+TN = cm.sum() - (FP + FN + np.diag(cm))
+
+TP = TP
+FP = FP.sum()
+FN = FN.sum()
+TN = TN.sum()
+
+print("\nTrue Positive:", TP)
+print("False Positive:", FP)
+print("True Negative:", TN)
+print("False Negative:", FN)
+
+# Metrics
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+error_rate = (FP + FN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP)
+recall = TP / (TP + FN)
+
+print("\nAccuracy:", accuracy)
+print("Error Rate:", error_rate)
+print("Precision:", precision)
+print("Recall:", recall)
