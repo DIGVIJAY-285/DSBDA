@@ -1,0 +1,7 @@
+import pandas as pd
+print("All libraries loaded susscessfully")
+
+df["Species"] = df["Species"].astype("category")
+
+df['SepalLengthCm'] = df['SepalLengthCm'].fillna(df['SepalLengthCm'].mean())
+
