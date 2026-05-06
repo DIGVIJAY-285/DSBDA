@@ -1,0 +1,71 @@
+import nltk
+import string
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk import pos_tag
+from sklearn.feature_extraction.text import TfidfVectorizer
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# -------------------------
+# 1. Sample Documents
+# -------------------------
+documents = [
+    "Natural Language Processing enables computers to understand human language.",
+    "Machine learning improves language models.",
+    "Text data processing is important in NLP."
+]
+
+sample_doc = documents[0]
+
+print("Original Document:\n", sample_doc)
+
+# -------------------------
+# 2. Tokenization
+# -------------------------
+tokens = word_tokenize(sample_doc)
+tokens = [word.lower() for word in tokens if word.isalpha()]
+print("\nTokens:\n", tokens)
+
+# -------------------------
+# 3. POS Tagging
+# -------------------------
+pos_tags = pos_tag(tokens)
+print("\nPOS Tags:\n", pos_tags)
+
+# -------------------------
+# 4. Stopwords Removal
+# -------------------------
+stop_words = set(stopwords.words('english'))
+filtered_tokens = [word for word in tokens if word not in stop_words]
+print("\nAfter Stopword Removal:\n", filtered_tokens)
+
+# -------------------------
+# 5. Stemming
+# -------------------------
+stemmer = PorterStemmer()
+stemmed_words = [stemmer.stem(word) for word in filtered_tokens]
+print("\nStemmed Words:\n", stemmed_words)
+
+# -------------------------
+# 6. Lemmatization
+# -------------------------
+lemmatizer = WordNetLemmatizer()
+lemmatized_words = [lemmatizer.lemmatize(word) for word in filtered_tokens]
+print("\nLemmatized Words:\n", lemmatized_words)
+
+# -------------------------
+# 7. TF-IDF Representation
+# -------------------------
+vectorizer = TfidfVectorizer(stop_words='english')
+tfidf_matrix = vectorizer.fit_transform(documents)
+
+feature_names = vectorizer.get_feature_names_out()
+df_tfidf = pd.DataFrame(tfidf_matrix.toarray(),
+                        columns=feature_names,
+                        index=[f"Document_{i+1}" for i in range(len(documents))])
+
+print("\nTF-IDF Table:\n")
+print(df_tfidf.round(3))
+
