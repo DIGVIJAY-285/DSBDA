@@ -1,0 +1,52 @@
+// factorial.scala
+
+val n = 5
+var fact = 1
+
+for(i <- 1 to n) {
+  fact = fact * i
+}
+
+println("Factorial = " + fact)
+
+// bubblesort.scala
+
+var arr = Array(5, 2, 8, 1, 3)
+val n = arr.length
+
+for(i <- 0 until n-1) {
+  for(j <- 0 until n-i-1) {
+    if(arr(j) > arr(j+1)) {
+      val temp = arr(j)
+      arr(j) = arr(j+1)
+      arr(j+1) = temp
+    }
+  }
+}
+
+println("Sorted array:")
+for(x <- arr) {
+  print(x + " ")
+}
+
+
+// WordCount.scala
+
+val text = "spark is fast spark is fun scala is powerful"
+val words = text.split(" ")
+
+val map = scala.collection.mutable.Map[String, Int]()
+
+for(word <- words) {
+  if(map.contains(word)) {
+    map(word) = map(word) + 1
+  } else {
+    map(word) = 1
+  }
+}
+
+println("Word Count:")
+for((k, v) <- map) {
+  println(k + " -> " + v)
+}
+
