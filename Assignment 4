@@ -1,0 +1,66 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+df = pd.read_csv('Titanic-Dataset.csv')
+df2 = pd.read_csv('Iris.csv')
+df['Age'] = df['Age'].fillna(df['Age'].median())
+df['Embarked'] = df['Embarked'].fillna(df['Embarked'].mode()[0])
+
+sns.countplot(x='Survived', data=df)
+plt.title("Survival Count")
+plt.show()
+
+sns.countplot(x='Sex', hue='Survived', data=df)
+plt.title("Survival by Gender")
+plt.show()
+
+sns.countplot(x='Pclass', hue='Survived', data=df)
+plt.title("Survival by Class")
+plt.show()
+
+sns.histplot(df['Age'], bins=20, kde=True)
+plt.title("Age Distribution")
+plt.xlabel("Age")
+plt.show()
+
+sns.histplot(df['Fare'], bins=30, kde=True)
+plt.title("Fare Distribution")
+plt.xlabel("Fare")
+plt.show()
+
+sns.boxplot(x='Pclass', y='Fare', data=df)
+plt.title("Fare by Passenger Class")
+plt.show()
+
+print("\n===================================================")
+print("OBSERVATIONS")
+print("===================================================")
+
+print("1. More passengers died than survived.")
+print("2. Female passengers survived more than males.")
+print("3. First class passengers had higher survival rate.")
+print("4. Most passengers paid lower fare.")
+print("5. Few passengers paid very high fare.")
+print("6. Majority passengers were adults.")
+
+
+sns.boxplot(x="Sex",y="Age",hue="Survived",data=df);
+plt.show()
+
+print("\n===================================================")
+print("Observations / Inference")
+print("===================================================")
+
+print("1. Female passengers had higher survival rates than males.")
+print("2. Median age of females is lower compared to males.")
+print("3. Younger passengers show better survival chances.")
+print("4. Male non-survivors are more compared to male survivors.")
+print("5. Presence of outliers indicates some elderly passengers.")
+print("6. Age values are spread differently for each category.")
+
+sns.boxplot(data=df2.drop(columns=["Id", "Species"]))
+plt.show()
+
+df2.drop(columns=["Id", "Species"]).hist(bins=20)
+plt.show()
+
